@@ -4,26 +4,33 @@ const cors = require('cors')
 
 app.use(express.json())
 app.use(cors())
-
+app.use(express.static('build'))
 
 let notes = [
   {
-    id: 1,
-    content: "HTML is easy",
-    date: "2020-01-10T17:30:31.098Z",
-    important: true
+    "name": "Tatu T",
+    "number": "123",
+    "id": 7
   },
   {
-    id: 2,
-    content: "Browser can execute only Javascript",
-    date: "2020-01-10T18:39:34.091Z",
-    important: false
+    "name": "asd",
+    "number": "123",
+    "id": 8
   },
   {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    date: "2020-01-10T19:20:14.298Z",
-    important: true
+    "name": "Arto k",
+    "number": "123",
+    "id": 9
+  },
+  {
+    "name": "Arto K",
+    "number": "123123123",
+    "id": 10
+  },
+  {
+    "name": "Matti Kasd",
+    "number": "123123123",
+    "id": 11
   }
 ]
 
@@ -81,7 +88,7 @@ app.delete('/api/notes/:id', (request, response) => {
   response.status(204).end()
 })
 
-const PORT = process.env.PORT || 3003
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
