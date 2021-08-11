@@ -25,25 +25,9 @@ const yhteystieto = new Yhteystieto({
     number: process.argv[4]
 })
 
-/* Yhteystieto.find({}).then(result => {
-    result.forEach(note => {
-      console.log(note)
-    })
-    mongoose.connection.close()
-})
-
-yhteystieto.save().then(response => {
-  console.log('note saved!')
-  mongoose.connection.close()
-}) */
-
 if (process.argv.length === 5) {
-  /*yhteystieto = new Yhteystieto( {
-    name: process.argv[3],
-    number: process.argv[4]
-  })*/
   yhteystieto.save().then(response => {
-    console.log('added to phonebook')
+    console.log(`Added ${yhteystieto.name} ${yhteystieto.number} to phonebook`)
     mongoose.connection.close()
   })
 } else if (process.argv.length === 3) {
