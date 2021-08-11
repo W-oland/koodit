@@ -2,63 +2,15 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
-// const mongoose = require('mongoose')
 const Yhteystieto = require('./models/yhteystieto')
+const { response } = require('express')
 
 app.use(express.json())
 app.use(cors())
 app.use(express.static('build'))
 
-/* const url =
-  `mongodb+srv://fullstack:salasana@cluster0.kakmq.mongodb.net/uusiSovellus?retryWrites=true&w=majority`
-
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-
-const yhteystietoSchema = new mongoose.Schema({
-  name: String,
-  number: String
-})
-
-yhteystietoSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
-
-const Yhteystieto = mongoose.model('Yhteystieto', yhteystietoSchema) */
-
-/* let notes = [
-  {
-    "name": "Tatu T",
-    "number": "123",
-    "id": 7
-  },
-  {
-    "name": "asd",
-    "number": "123",
-    "id": 8
-  },
-  {
-    "name": "Arto k",
-    "number": "123",
-    "id": 9
-  },
-  {
-    "name": "Arto K",
-    "number": "123123123",
-    "id": 10
-  },
-  {
-    "name": "Matti Kasd",
-    "number": "123123123",
-    "id": 11
-  }
-] */
-
 app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>')
+  res.send('<h1>Phonebook</h1>')
 })
 
 app.get('/api/notes', (req, res) => {
@@ -67,12 +19,24 @@ app.get('/api/notes', (req, res) => {
   })
 })
 
-const generateId = () => {
-  const maxId = notes.length > 0
-    ? Math.max(...notes.map(n => n.id))
-    : 0
-  return maxId + 1
-}
+app.get('/api/notes/:id', (request, response, next) => {
+  Yhteystieto.findById(request.params.id)
+    .then(yhteystieto => {
+      if (yhteystieto) {
+        response.json(yhteystieto)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => {next(error)})
+})
+
+app.get('/api/info', (request, response) => {
+  Yhteystieto.find({}).then(yhteystiedot => {
+    response.send(`<div> <p> Phonebook has info for ${yhteystiedot.length} people</p> <p> ${new Date()}</p> </div>`)
+  })
+})
+
 
 app.post('/api/notes', (request, response) => {
   const body = request.body
@@ -94,17 +58,27 @@ app.post('/api/notes', (request, response) => {
   })
 })
 
-app.get('/api/notes/:id', (request, response) => {
-  Yhteystieto.findById(request.params.id).then(yhteystieto => {
-    response.json(yhteystieto)
+app.delete('/api/notes/:id', (request, response, next) => {
+  Yhteystieto.findByIdAndRemove(request.params.id)
+  .then(result => {
+    response.status(204).end()
   })
+  .catch(error => next(error))
 })
 
-app.delete('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id)
-  notes = notes.filter(note => note.id !== id)
+app.put('/api/notes/:id', (request, response, next) => {
+  const body = request.body
 
-  response.status(204).end()
+  const yhteystieto = {
+    name: body.name,
+    number: body.number
+  }
+
+  Yhteystieto.findByIdAndUpdate(request.params.id, yhteystieto, { new: true })
+    .then((update) => {
+      response.json(update)
+    })
+    .catch((error) => next(error))
 })
 
 const PORT = process.env.PORT
@@ -112,3 +86,11 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+  if (error.name === 'CastError') {
+    return response.status(400).send({error: 'malformatted id'})
+  }
+  next(error)
+}
+app.use(errorHandler)
