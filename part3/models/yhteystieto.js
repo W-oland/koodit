@@ -16,7 +16,6 @@ const yhteystietoSchema = new mongoose.Schema({
     number: String
 })
 
-
 yhteystietoSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
