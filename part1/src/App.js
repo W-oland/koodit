@@ -106,8 +106,16 @@ const App = () => {
             setErrorMessage(null)
           }, 2000)
         })
+        .catch((error) => {
+          console.log(error.response.data)
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 2000)
+        })
       }
-  }
+    }
+  
 
     const handleName = (event) => {
       console.log('Changed name (state): ', event.target.value)
@@ -167,5 +175,6 @@ const App = () => {
   )
 
 }
+
 
 export default App
