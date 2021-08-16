@@ -2,6 +2,6 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json 
 
 {
-    "name": "VS Code rest",
-    "number": "123123"
+    "name": "petteri",
+    "number": "2"
 }
