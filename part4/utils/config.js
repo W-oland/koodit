@@ -1,5 +1,7 @@
-const PORT = 3001
-const MONGODB_URI = 'mongodb+srv://fullstack:salasana@cluster0.kakmq.mongodb.net/ToinenSovellus?retryWrites=true&w=majority'
+require('dotenv').config()
+
+let PORT = process.env.PORT
+let MONGODB_URI = process.env.MONGODB_URI
 
 module.exports = {
     MONGODB_URI, PORT

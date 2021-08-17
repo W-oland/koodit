@@ -2,7 +2,7 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Auringonlaskut",
+    "title": "Viulu",
     "author": "Gustav Mahler",
     "url": "www.gustavMahler.org",
     "likes": 10
