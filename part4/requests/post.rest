@@ -1,9 +1,9 @@
-POST http://localhost:3003/api/blogs
-Content-Type: application/json 
+POST http://localhost:3001/
+Content-Type: application/json
 
 {
-    "title": "Alangot",
-    "author": "Tanja K",
-    "url": "www.google.fi",
-    "likes": "1"
+    "title": "Auringonnousu",
+    "author": "Gustav Adolf",
+    "url": "www.gustav.org",
+    "likes": 60000
 }
