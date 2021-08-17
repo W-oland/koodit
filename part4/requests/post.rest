@@ -1,9 +1,9 @@
-POST http://localhost:3001/
+POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Auringonnousu",
-    "author": "Gustav Adolf",
-    "url": "www.gustav.org",
-    "likes": 60000
+    "title": "Auringonlaskut",
+    "author": "Gustav Mahler",
+    "url": "www.gustavMahler.org",
+    "likes": 10
 }

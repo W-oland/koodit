@@ -17,8 +17,8 @@ blogsRouter.post('/', (request, response) => {
         likes: body.likes
     })
 
-    blog.save().then(saved => {
-        response.json(saved.toJSON())
+    blog.save().then(result => {
+        response.status(201).json(result.toJSON())
     })
 })
 
