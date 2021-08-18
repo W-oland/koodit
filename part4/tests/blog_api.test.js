@@ -80,6 +80,23 @@ test('a blog without title and url is not added', async () => {
     expect(response.body).toHaveLength(init.length)
 })
 
+test('a blog without likes has likes set to default value of zero', async () => {
+    const newBlog = {
+        title: "Heavy Metal",
+        author: "Lemmy",
+        url: "motorhead.com"
+    }
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+
+    const response = await api.get('/api/blogs')
+
+    expect(response.body).toHaveLength(init.length + 1)
+    expect(response.body[2].likes).toBe(0)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
