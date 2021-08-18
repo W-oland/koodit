@@ -122,6 +122,25 @@ test('a blog can be deleted', async () => {
     expect(titles).not.toContain(blogToDelete.title)
 })
 
+test('a blog can be modified', async() => {
+    const blogsGenesis = await helper.blogsDB()
+    const blogToModify = blogsGenesis[0]
+
+    const blog = {
+        title: "TDD harms architecture",
+        author: "Robert C. Martin",
+        url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+        likes: 200
+    }
+
+    await api
+    .put(`/api/blogs/${blogToModify.id}`)
+    .send(blog)
+    .expect(200)
+
+    
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
