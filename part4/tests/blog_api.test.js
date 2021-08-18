@@ -30,16 +30,37 @@ beforeEach(async () => {
     await blogObject.save()
 })
 
-test('all notes are returned as json', async () => {
+test('all blogs are returned as json', async () => {
     await api
     .get('/api/blogs')
     .expect(200)
     .expect('Content-Type', /application\/json/)
 })
 
-test('all notes are returned', async () => {
+test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
     expect(response.body).toHaveLength(init.length)
+})
+
+test('a valid blog can be added', async () => {
+    const newBlog = {
+        title: "Mains goals",
+        author: "Robs Halford",
+        url: "http://judaspriest.com",
+        likes: 55
+    }
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201) // <-- Materiaalissa jostakin syystä 200 vaikka tässä luodaan uusi muistiinpano! 
+    .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+
+    const title = response.body.map(response => response.title)
+
+    expect(response.body).toHaveLength(init.length + 1)
+    expect(title).toContain('Mains goals')
 })
 
 afterAll(() => {
