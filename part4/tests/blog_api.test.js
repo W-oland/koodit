@@ -22,6 +22,7 @@ const init = [
         __v: 0
       } 
 ]
+
 beforeEach(async () => {
     await Blog.deleteMany({})
     let blogObject = new Blog(init[0])
@@ -52,7 +53,7 @@ test('a valid blog can be added', async () => {
     await api
     .post('/api/blogs')
     .send(newBlog)
-    .expect(201) // <-- Materiaalissa jostakin syystä 200 vaikka tässä luodaan uusi muistiinpano! 
+    .expect(200) // <-- Materiaalissa jostakin syystä 200 vaikka tässä luodaan uusi muistiinpano! 
     .expect('Content-Type', /application\/json/)
 
     const response = await api.get('/api/blogs')
@@ -61,6 +62,22 @@ test('a valid blog can be added', async () => {
 
     expect(response.body).toHaveLength(init.length + 1)
     expect(title).toContain('Mains goals')
+})
+
+test('a blog without title and url is not added', async () => {
+    
+    const newBlog = {
+        author: "Ozzy Halford"
+    }
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+    const response = await api.get('/api/blogs')
+
+    expect(response.body).toHaveLength(init.length)
 })
 
 afterAll(() => {
