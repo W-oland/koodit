@@ -5,7 +5,7 @@ const app = require('../app')
 const api = supertest(app)
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
-const { TestWatcher } = require('jest')
+//const { TestWatcher } = require('jest')
 
 
 describe('when there is initially one user at the db', () => {
@@ -15,7 +15,7 @@ describe('when there is initially one user at the db', () => {
         const passwordHash = await bcrypt.hash('salasana', 10)
         
         const user = new User({
-            username: 'root',
+            username: 'boots',
             passwordHash
         })
 
@@ -26,9 +26,9 @@ describe('when there is initially one user at the db', () => {
         const usersAtStart = await helper.usersDB()
 
         const newUser = {
-            username: 'pasirantanen',
-            name: 'pasi rantanen',
-            password: 'salainen'
+            username: 'ilmarisara',
+            name: 'ilmari sara',
+            password: 'ilmarixx'
         }
 
         await api
@@ -50,7 +50,7 @@ describe('when there is initially one user at the db', () => {
         const usersAtStart = await helper.usersDB()
 
         const newUser = {
-            username: 'root',
+            username: 'boots',
             name: 'Superuser',
             password: 'salainen'
         }
@@ -68,8 +68,8 @@ describe('when there is initially one user at the db', () => {
 
     })
 
-    afterAll(() => {
-        mongoose.connection.close()
-    })
+})
 
+afterAll(() => {
+    mongoose.connection.close()
 })

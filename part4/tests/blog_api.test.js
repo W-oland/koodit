@@ -131,7 +131,7 @@ test('a blog can be modified', async() => {
         title: "TDD harms architecture",
         author: "Robert C. Martin",
         url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-        likes: 200
+        likes: 666
     }
 
     await api
@@ -139,7 +139,6 @@ test('a blog can be modified', async() => {
     .send(blog)
     .expect(200)
 
-    
 })
 
 afterAll(() => {

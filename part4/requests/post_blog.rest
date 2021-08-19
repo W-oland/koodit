@@ -2,8 +2,9 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Viulu",
+    "title": "Sello",
     "author": "Gustav Mahler",
     "url": "www.gustavMahler.org",
-    "likes": 10
+    "likes": 10,
+    "userId": "611e254e98a28e56f9334473"
 }
