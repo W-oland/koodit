@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
 const supertest = require('supertest')
+const mongoose = require('mongoose')
 const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
@@ -26,10 +26,11 @@ const Blog = require('../models/blog')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
-    let blogObject = new Blog(helper.init[0])
+    await Blog.insertMany(helper.init)
+    /*let blogObject = new Blog(helper.init[0])
     await blogObject.save()
     blogObject = new Blog(helper.init[1])
-    await blogObject.save()
+    await blogObject.save()*/
 })
 
 test('all blogs are returned as json', async () => {
