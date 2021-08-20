@@ -1,11 +1,11 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1haGxlciIsImlkIjoiNjExZTI1NGU5OGEyOGU1NmY5MzM0NDczIiwiaWF0IjoxNjI5NDM0MzIyfQ.bDTsLzts1d16kfuIVaI-U4KWffNju5aQtXEsHX44xyo
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNpYmVsaXVzIiwiaWQiOiI2MTFmNDAzMDRkZjQ3OTA5NmIzZTZlNDEiLCJpYXQiOjE2Mjk0MzgwMzJ9.SgQt0pC_MG2MiyeXP_4NFYrIbuM34SQEHK8vnQoJSHY
 
 {
-    "title": "Dello",
-    "author": "Hustav Mahler",
+    "title": "DHllo",
+    "author": "ALlowustav Mahler",
     "url": "www.gustavMahler.org",
-    "likes": 10,
-    "userId": "611e254e98a28e56f9334473"
+    "likes": 101111,
+    "userId": "611f40304df479096b3e6e41"
 }
