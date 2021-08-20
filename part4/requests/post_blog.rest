@@ -1,9 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1haGxlciIsImlkIjoiNjExZTI1NGU5OGEyOGU1NmY5MzM0NDczIiwiaWF0IjoxNjI5NDM0MzIyfQ.bDTsLzts1d16kfuIVaI-U4KWffNju5aQtXEsHX44xyo
 
 {
-    "title": "Sello",
-    "author": "Gustav Mahler",
+    "title": "Dello",
+    "author": "Hustav Mahler",
     "url": "www.gustavMahler.org",
     "likes": 10,
     "userId": "611e254e98a28e56f9334473"

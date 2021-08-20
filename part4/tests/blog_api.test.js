@@ -138,7 +138,7 @@ test('a blog can be modified', async() => {
     .put(`/api/blogs/${blogToModify.id}`)
     .send(blog)
     .expect(200)
-
+    // Tainnut jäädä tästä kohdin kesken. Pitäisi varmaan viimesitellä tämä.
 })
 
 afterAll(() => {
