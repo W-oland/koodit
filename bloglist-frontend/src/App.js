@@ -34,6 +34,13 @@ const App = () => {
     .then(returnedBlog => {
     setBlogs(blogs.concat(returnedBlog))
     })
+    SETauthor('')
+    SETtitle('')
+    SETurl('')
+    
+    SETerrorMessage(`A new blog ${title} by ${author} added`)
+    setTimeout(() => {
+      SETerrorMessage(null)}, 5000);
   }
 
   const handleLogin = async (event) => {
@@ -50,7 +57,7 @@ const App = () => {
       SETusername('')
       SETpassword('')
     } catch (exception) {
-      SETerrorMessage('wrong credentials')
+      SETerrorMessage('wrong username or password')
       setTimeout(() => {
         SETerrorMessage(null)}, 5000)
     }
@@ -89,6 +96,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={errorMessage}/>
       <p>{user.name} logged in</p>
       <h2>create new</h2>
       <form onSubmit={addBlog}>
