@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
-const Blog = ({blog, likeClick, deleteClick}) => { // <--- Tässä
+const Blog = ({ blog, likeClick, deleteClick }) => {
   const [showDetails, SETshowDetails] = useState(false)
   const blogStyle = {
     paddingTop: 10,
@@ -15,22 +15,22 @@ const Blog = ({blog, likeClick, deleteClick}) => { // <--- Tässä
   }
 
   return (
-  <div style={blogStyle}>
-    {blog.title} {blog.author}
-    <button onClick={handleToggle}>{showDetails ? 'hide' : 'view'}</button>
-    {showDetails &&  (
-      <ul>
-        <li>{blog.url}</li>
-        <li>{blog.likes}
-          <button onClick={likeClick}>like</button>
-        </li>
-        <li>{blog.user.name}</li>
-          <li>
-          <button onClick={deleteClick}>Delete</button>
+    <div style={blogStyle}>
+      {blog.title} {blog.author}
+      <button onClick={handleToggle}>{showDetails ? 'hide' : 'view'}</button>
+      {showDetails &&  (
+        <ul>
+          <li>{blog.url}</li>
+          <li>{blog.likes}
+            <button onClick={likeClick}>like</button>
           </li>
-      </ul>
-    )}
-  </div>  
-)}
- // myös rivillä 25
+          <li>{blog.user.name}</li>
+          <li>
+            <button onClick={deleteClick}>Delete</button>
+          </li>
+        </ul>
+      )}
+    </div>
+  )}
+
 export default Blog
