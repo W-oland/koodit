@@ -1,6 +1,6 @@
-POST http://localhost:3001/api/blogs
+POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNpYmVsaXVzIiwiaWQiOiI2MTFmNDAzMDRkZjQ3OTA5NmIzZTZlNDEiLCJpYXQiOjE2Mjk0MzgwMzJ9.SgQt0pC_MG2MiyeXP_4NFYrIbuM34SQEHK8vnQoJSHY
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2MTJlMDM4MDE1Yjc5YTIxNDhlOWI2YWIiLCJpYXQiOjE2MzA0MDYxNTB9.rUvOeFM4nikNagYfKrutw4qaNgY6djYok2MWjH18pSM
 
 {
     "title": "DHllo",

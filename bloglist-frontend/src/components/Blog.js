@@ -17,16 +17,16 @@ const Blog = ({ blog, likeClick, deleteClick }) => {
   return (
     <div style={blogStyle}>
       {blog.title} {blog.author}
-      <button onClick={handleToggle}>{showDetails ? 'hide' : 'view'}</button>
+      <button id='view-hide-button' onClick={handleToggle}>{showDetails ? 'hide' : 'view'}</button>
       {showDetails &&  (
         <ul>
           <li>{blog.url}</li>
           <li>{blog.likes}
-            <button onClick={likeClick}>like</button>
+            <button id='like-button' onClick={likeClick}>like</button>
           </li>
           <li>{blog.user.name}</li>
           <li>
-            <button onClick={deleteClick}>Delete</button>
+            <button id='delete-button' onClick={deleteClick}>Delete</button>
           </li>
         </ul>
       )}
