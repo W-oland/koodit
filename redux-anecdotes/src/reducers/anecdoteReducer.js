@@ -17,13 +17,44 @@ const asObject = (anecdote) => {
   }
 }
 
+export const changeVote = (id) => { // <-- Täysin sama kuin materiaalin toggleImportance
+  console.log('vote', id)
+  return ({
+    type: 'VOTE',
+    data: { id }
+  })
+}
+
+export const createAnecdote = (content) => {
+  return {
+    type: 'NEW_NOTE',
+    data: {
+      content,
+      id: getId(),
+      votes: 0
+    }
+  }
+}
+
 const initialState = anecdotesAtStart.map(asObject)
 
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
-
-  return state
+  switch(action.type) {
+    case 'NEW_NOTE':
+      return [...state, action.data]
+    case 'VOTE':
+      const id = action.data.id
+      const anecdote = state.find(n => n.id === id)
+      const changed = {
+        ...anecdote,
+        votes: anecdote.votes + 1
+      }
+      return state.map(n => n.id !== id ? n : changed)
+      default:
+        return state
+  }
 }
 
 export default reducer

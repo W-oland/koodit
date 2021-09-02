@@ -1,12 +1,21 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { changeVote, createAnecdote } from './reducers/anecdoteReducer'
 
 const App = () => {
   const anecdotes = useSelector(state => state)
   const dispatch = useDispatch()
 
-  const vote = (id) => {
+  /*const vote = (id) => { // <-- Täysin sama kuin materiaalin toggleImportance
     console.log('vote', id)
+  }*/
+
+  const addAnecdote = (event) => {
+    event.preventDefault()
+    const content = event.target.anecdote.value
+    event.target.anecdote.value = ''
+    dispatch(createAnecdote(content))
+
   }
 
   return (
@@ -19,14 +28,15 @@ const App = () => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => dispatch(changeVote(anecdote.id))}>vote</button> 
+            {/*<button onClick={() => vote(anecdote.id)}>vote</button>*/}
           </div>
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
+      <form onSubmit={addAnecdote}>
+        <div><input name="anecdote" /></div>
+        <button type='submit'>create</button>
       </form>
     </div>
   )
