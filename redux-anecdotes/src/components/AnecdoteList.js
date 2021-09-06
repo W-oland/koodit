@@ -18,7 +18,7 @@ const Anecdote = ({ anecdote, handleClick}) => {
 
 const Anecdotes = () => {
     const dispatch = useDispatch()
-    const anecdotes = useSelector(state => state)
+    const anecdotes = useSelector(state => state.anecdotes) // <--- muutos. aiemmin state => state
 
     return (
         <div>
