@@ -20,7 +20,17 @@ const Anecdote = ({ anecdote, handleClick}) => {
 
 const Anecdotes = () => {
     const dispatch = useDispatch()
-    const anecdotes = useSelector(state => state.anecdotes) // <--- muutos. aiemmin state => state
+    //const anecdotes = useSelector(state => state.anecdotes)
+
+    const anecdotes = useSelector(state => {
+      if (state.filter === '') {
+        return state.anecdotes
+      }
+      return state.anecdotes.filter((anecdote) => 
+      anecdote.content.toLowerCase()
+      .includes(state.filter.toLowerCase()))
+      .sort((a,b) => b.votes - a.votes)
+    })
 
     const clickEffect = ({anecdote}) => {
       dispatch(changeVote(anecdote.id))
@@ -38,7 +48,6 @@ const Anecdotes = () => {
                 <Anecdote
                 key={anecdote.id}
                 anecdote={anecdote}
-                //handleClick={() => dispatch(changeVote(anecdote.id))}
                 handleClick={() => clickEffect({anecdote})}
             />
         )}
