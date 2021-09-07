@@ -15,7 +15,7 @@ const NewAnecdote = (props) => {
         dispatch(showNotification(message))
         setTimeout(() => {
             dispatch(hideNotification())
-        }, 5000);
+        }, 5000)
 
     }
 
