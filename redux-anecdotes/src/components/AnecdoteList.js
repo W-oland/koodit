@@ -33,7 +33,9 @@ const Anecdotes = () => {
     })
 
     const clickEffect = ({anecdote}) => {
-      dispatch(changeVote(anecdote.id))
+      //dispatch(changeVote(anecdote.id))
+      dispatch(changeVote(anecdote))
+      
       const message = `you liked ${anecdote.content}`
       dispatch(showNotification(message))
       setTimeout(() => {
