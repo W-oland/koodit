@@ -1,4 +1,5 @@
 const initialState = ''
+let timeout = null
 
 const notificationReducer = (state = initialState, action) => {
     console.log(action)
@@ -28,8 +29,9 @@ export const hideNotification = () => {
 
 export const setNotification = (message, seconds) => {
     return async dispatch => {
+        clearTimeout(timeout)
         dispatch(showNotification(message))
-        setTimeout(()=> {
+        timeout = setTimeout(()=> {
             dispatch(hideNotification())
         }, 1000 * seconds)
     }
