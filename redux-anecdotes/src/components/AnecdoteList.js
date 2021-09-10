@@ -1,7 +1,7 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { changeVote } from '../reducers/anecdoteReducer'
-import { showNotification, hideNotification, setNotification } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const Anecdote = ({ anecdote, handleClick}) => {
     return (
@@ -18,37 +18,48 @@ const Anecdote = ({ anecdote, handleClick}) => {
 }
 
 
-const Anecdotes = () => {
-    const dispatch = useDispatch()
-    //const anecdotes = useSelector(state => state.anecdotes)
-
-    const anecdotes = useSelector(state => {
-      if (state.filter === '') {
-        return state.anecdotes
-      }
-      return state.anecdotes.filter((anecdote) => 
-      anecdote.content.toLowerCase()
-      .includes(state.filter.toLowerCase()))
-      .sort((a,b) => b.votes - a.votes)
-    })
+const Anecdotes = (props) => {
 
     const clickEffect = ({anecdote}) => {
-      dispatch(changeVote(anecdote))
-      dispatch(setNotification(`You voted for ${anecdote.content}`, 5))
+      props.changeVote(anecdote)
+      props.setNotification(`You voted for ${anecdote.content}`, 5)
     }
 
     return (
         <div>
             <h2>Anecdotes</h2>
-            {anecdotes.sort((a,b) => b.votes - a.votes).map(anecdote =>
+            {props.anecdotes.sort((a,b) => b.votes - a.votes).map(anecdote =>
                 <Anecdote
                 key={anecdote.id}
                 anecdote={anecdote}
                 handleClick={() => clickEffect({anecdote})}
             />
-        )}
+            )}
+            
+             
         </div>
     )
 }
 
-export default Anecdotes
+const mapDispatchToProps = {
+  changeVote, setNotification
+}
+
+const mapStateToProps = (state) => {
+  if (state.filter === '') {
+    return {
+      anecdotes: state.anecdotes
+    }
+  }
+  return {
+    anecdotes: ( state.anecdotes.filter((anecdote) => 
+    anecdote.content.toLowerCase()
+    .includes(state.filter.toLowerCase()))
+    .sort((a,b) => b.votes - a.votes) )
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+  )(Anecdotes)
