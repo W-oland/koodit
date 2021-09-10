@@ -22,7 +22,16 @@ export const showNotification = (message) => {
 export const hideNotification = () => {
     return {
         type: 'HIDE_NOTIFICATION',
-        notification: initialState
+        data: initialState
+    }
+}
+
+export const setNotification = (message, seconds) => {
+    return async dispatch => {
+        dispatch(showNotification(message))
+        setTimeout(()=> {
+            dispatch(hideNotification())
+        }, 1000 * seconds)
     }
 }
 
