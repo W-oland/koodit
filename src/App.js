@@ -17,9 +17,30 @@ const useField = (type) => {
 
 const useCountry = (name) => {
   const [country, setCountry] = useState(null)
+  
+  const hook = async () => {
+    
+    if (!name) {
+      return null 
+    }
 
-  useEffect(() => {})
+    const response = await axios.get(`https://restcountries.eu/rest/v2/name/${name}?fullText=true`)
 
+    const object = {
+      data: response.data[0], // <-- jos maita enemmän kuin 1, otetaan näistä vain ensimmäinen.
+      found: true // <-- annetaan palautetulle objektille uusi kenttä 'found'
+    }
+
+    if (!object.found) {
+      return setCountry({ found: false })
+    } else {
+      return setCountry(object)
+    }
+    
+  }
+
+  useEffect(hook, [name])
+ 
   return country
 }
 
@@ -28,7 +49,7 @@ const Country = ({ country }) => {
     return null
   }
 
-  if (!country.found) {
+  if (!country.found) { // <-- tarkkana! tässä annettu tieto, että country-objektilla on oltava json-kenttänä 'found'
     return (
       <div>
         not found...
