@@ -18,12 +18,23 @@ const useField = (type) => {
 }
 
 const useResource = (baseUrl) => {
+  
   const [resources, setResources] = useState([])
+  
+  const hook = async () => {
+    console.log('hook')
+    const response = await axios.get(baseUrl)
+    setResources(response.data)
+  }
+  
+  useEffect(hook,[baseUrl])
 
-  // ...
+  console.log('render', resources.length, 'json-objects')
 
-  const create = (resource) => {
+  const create = async (resource) => {
     // ...
+    const response = await axios.post(baseUrl, resource)
+    setResources(resources.concat(response.data)) // <-- tai setResources([...resources, response.data])
   }
 
   const service = {
