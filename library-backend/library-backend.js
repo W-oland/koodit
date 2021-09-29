@@ -90,13 +90,13 @@ const typeDefs = gql`
 type Author {
     name: String!
     id: ID!
-    born: String
+    born: Int
     bookCount: Int
 }
 
 type Book {
     title: String!
-    published: String!
+    published: Int!
     author: String!
     id: ID!
     genres: [String]
@@ -110,12 +110,14 @@ type Query {
   }
 
 type Mutation {
+  
   addBook(
     title: String!
     author: String!
-    published: Int
+    published: Int!
     genres: [String]
   ): Book
+  
   editAuthor(
     name: String 
     setBornTo: Int
@@ -129,10 +131,12 @@ const resolvers = {
       authorCount: () => authors.length,
       bookCount: () => books.length,
       allBooks: (root, args) => {
-        if (!args.genre) {
+        if (!args.genre && args.author) {
           return books.filter(books => books.author === args.author)
-        } else if (!args.author) {
+        } else if (!args.author && !args.genre) {
           return books.filter(books => books.genres.filter(genre => genre === args.genre))
+        } else if (!args.author && !args.genre) { // <-- uusi
+          return books
         } else {
           return books.filter(books => books.author === args.author && books.genres.filter(genre => genre === args.genre))
         }
