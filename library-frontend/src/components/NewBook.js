@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
 
+// lisätty alle muutos riville 13 poistettu author
 const CREATE_BOOK = gql`
 mutation createBook ($title: String!, $author: String!, $published: Int!, $genres: [String]){
   addBook(
@@ -9,16 +10,18 @@ mutation createBook ($title: String!, $author: String!, $published: Int!, $genre
     published: $published,
     genres: $genres
   ) {
-    title,
-    author
+    title
   }
 }`
 
+// lisätty alle muutos riville 22-24
 const ALL_BOOKS = gql`
 query {
   allBooks { 
     title 
-    author
+    author {
+      name
+    }
     published
   }
 }

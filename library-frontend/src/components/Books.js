@@ -5,8 +5,12 @@ const ALL_BOOKS = gql`
 query {
   allBooks { 
     title 
-    author
+    author {
+      name
+      born
+    }
     published
+    genres
   }
 }
 `
@@ -15,12 +19,17 @@ const Books = (props) => {
   const result = useQuery(ALL_BOOKS) // <-- kyselyn tulos
   const [books, setBooks] = useState([])
 
+  const genres = books.map(book => book.genres)
+  console.log(genres)
+
   useEffect(() => {
     if(result.data) {
       setBooks(result.data.allBooks)
     }
     
   },[result])
+
+  console.log(books)
 
   if (!props.show) {
     return null
@@ -33,7 +42,9 @@ const Books = (props) => {
       <table>
         <tbody>
           <tr>
-            <th></th>
+            <th>
+              book
+            </th>
             <th>
               author
             </th>
@@ -44,7 +55,7 @@ const Books = (props) => {
           {books.map(a =>
             <tr key={a.title}>
               <td>{a.title}</td>
-              <td>{a.author}</td>
+              <td>{a.author.name}</td>
               <td>{a.published}</td>
             </tr>
           )}

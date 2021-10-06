@@ -9,7 +9,7 @@ const LOGIN = gql`
      }
 `
 
-const LoginForm = ({ setToken, setError }) => {
+const LoginForm = ({ setToken, setError, show }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [login, result] = useMutation(LOGIN, {
@@ -32,9 +32,14 @@ const LoginForm = ({ setToken, setError }) => {
 
     }
 
+    if (!show) {
+        return null
+      }
+
     return (
         <div>
             <form onSubmit={submit}>
+                <h2>Login</h2>
                 <div>
                     username
                     <input 
