@@ -15,12 +15,23 @@ query {
 }
 `
 
+/*const Buttons = (props) => {
+  return (
+    props.list.map(g => 
+      <button 
+      key={g}
+      onClick={}
+      >
+        {g}
+      </button>
+      )    
+  )
+}*/
+
 const Books = (props) => {
   const result = useQuery(ALL_BOOKS) // <-- kyselyn tulos
   const [books, setBooks] = useState([])
-
-  const genres = books.map(book => book.genres)
-  console.log(genres)
+  const [genre, setGenre] = useState(null)
 
   useEffect(() => {
     if(result.data) {
@@ -35,6 +46,82 @@ const Books = (props) => {
     return null
   }
 
+  let genres = books.flatMap(book => book.genres)
+  genres = [...new Set(genres)]
+
+  /*if(genre) {
+    return (
+      <div>
+        {books.filter(book =>
+          book.genres.includes(genre)
+          )}
+      </div>
+     
+    )
+  }*/
+
+  
+
+  /*const options = authors.map((a) => {
+        return {
+            value: a.name,
+            label: a.name
+        }
+    })
+
+    const value = name
+    ? { label: name, value: name }
+    : null*/
+
+  if (genre) {
+    const filteredBooks = books.filter(book => book.genres.includes(genre))
+    return (
+      <div>
+        <table>
+          <tbody>
+          <tr>
+            <th>
+              book
+            </th>
+            <th>
+              author
+            </th>
+            <th>
+              published
+            </th>
+          </tr>
+        {filteredBooks.map(book =>
+        <tr key={book.title}>
+          <td>{book.title}</td>
+          <td>{book.author.name}</td>
+          <td>{book.published}</td>
+        </tr>)}
+          </tbody>
+        </table>
+        {genres.map(g => 
+      <button 
+      key={g}
+      onClick={() => setGenre(g)}
+      >
+        {g}
+      </button>
+      )  }
+      </div>
+      
+    )
+  }
+    /*return (
+      <div>
+        
+        {books.flatMap(book => 
+          book.genres.filter(genres =>
+            genres.includes(genre))
+          )}
+      </div>
+    )
+  }*/
+
+    
   return (
     <div>
       <h2>books</h2>
@@ -61,8 +148,20 @@ const Books = (props) => {
           )}
         </tbody>
       </table>
+      {/*<Buttons list={genres} />*/}
+      {genres.map(g => 
+      <button 
+      key={g}
+      onClick={() => setGenre(g)}
+      >
+        {g}
+      </button>
+      )  }
+      {console.log(genre)}
     </div>
   )
+  
 }
+
 
 export default Books
