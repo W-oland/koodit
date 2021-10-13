@@ -24,7 +24,7 @@ const typeDefs = gql`
 
 type User {
   username: String!
-  favoriteGenre: String!
+  favouriteGenre: String!
   id: ID!
 }
 
@@ -71,7 +71,7 @@ type Mutation {
 
   createUser(
     username: String!
-    favoriteGenre: String!
+    favouriteGenre: String!
   ): User
 
   login(
@@ -87,7 +87,33 @@ const resolvers = {
   Query: {
       authorCount: async () =>  await Author.collection.countDocuments(), //authors.length,
       bookCount: async () =>  await Book.collection.countDocuments(), //books.length,
-      allBooks: async (root, args) => await Book.find({}).populate('author'),
+      allBooks: async (root, args) => {
+        if (args.genre && args.author) {
+          const author = await Author.findOne({ name:args.author })
+          const books = await Book.find({ 
+            $and : [
+              { author: { $in: author.id } },
+              { genres: { $in: args.genre } }
+            ]
+          }).populate('author')
+          return books
+        } else if (args.genre) {
+          const books = await Book.find({
+            genres: { $in: args.genre }
+          }).populate('author')
+          return books
+        } else if (args.author) {
+          const author = await Author.findOne({ name:args.author })
+          const books = await Book.find({
+            author: { $in: author.id }
+          }).populate('author')
+          return books
+        } else {
+          return Book.find({}).populate('author')
+        }
+      },
+       //await Book.find({}).populate('author'), <-- toimi pohjana ylemmille if/else -komennoille
+
       /*allBooks: async (root, args) => {
         if (!args.genre && args.author) {
           return await Book.find({author: args.author}) //books.filter(books => books.author === args.author)
@@ -101,6 +127,8 @@ const resolvers = {
       },*/
       allAuthors: async () => await Author.find({}),
       me: (root, args, context) => {
+        console.log(context)
+        console.log(context.currentUser)
         return context.currentUser
       },
   },
@@ -112,7 +140,7 @@ const resolvers = {
   Mutation: {
 
     createUser: (root, args) => {
-      const user = new User({ username: args.username })
+      const user = new User({ username: args.username, favouriteGenre: args.favouriteGenre })
 
       return user.save()
       .catch(error => {
@@ -125,6 +153,7 @@ const resolvers = {
 
     login: async (root, args) => {
       const user = await User.findOne({ username: args.username })
+      console.log(user)
 
       if (!user || args.password !== 'secret') {
         throw new UserInputError('wrong credentials')
@@ -145,6 +174,7 @@ const resolvers = {
 
       try {
         const currentUser = context.currentUser
+        console.log(currentUser)
         if (!currentUser) {
           throw new AuthenticationError('not authenticated')
         }
@@ -182,6 +212,7 @@ const resolvers = {
     editAuthor: async (root,args, context) => {
       const author = await Author.findOne({ name: args.name }) //authors.find(author => author.name === args.name)
       const currentUser = context.currentUser
+      console.log(currentUser)
       
       if (!currentUser) {
         throw new AuthenticationError('not authenticated')

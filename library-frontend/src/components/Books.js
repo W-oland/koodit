@@ -47,6 +47,7 @@ const Books = (props) => {
   }
 
   let genres = books.flatMap(book => book.genres)
+  console.log(books)
   genres = [...new Set(genres)]
 
   /*if(genre) {

@@ -10,9 +10,10 @@ const LOGIN = gql`
 `
 
 const LoginForm = ({ setToken, setError, show }) => {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [login, result] = useMutation(LOGIN, {
+    const [ username, setUsername ] = useState('')
+    const [ password, setPassword ] = useState('')
+    
+    const [ login, result ] = useMutation(LOGIN, {
         onError: (error) => {
             setError(error.graphQLErrors[0].message)
         }
