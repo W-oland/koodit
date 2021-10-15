@@ -1,20 +1,6 @@
 import { React, useEffect, useState }from 'react'
 import { gql, useLazyQuery, useQuery } from '@apollo/client'
 
-const ALL_BOOKS = gql`
-query {
-  allBooks { 
-    title 
-    author {
-      name
-      born
-    }
-    published
-    genres
-  }
-}
-`
-
 const FILTERED_BOOKS = gql`
 query filteredBooks ($filter: String!) {
   allBooks (genre: $filter) {
@@ -59,25 +45,6 @@ const Recommend = (props) => {
       console.log(result.data.allBooks)
     }
   }, [ result ])
-
-
-
-    /*const result = useQuery(ALL_BOOKS) // <-- kyselyn tulos
-    const user = useQuery(ME)
-    const [books, setBooks] = useState([])
-    const [genre, setGenre] = useState(null)
-
-    useEffect(() => {
-      if (user.data && user.data.me) {
-        setGenre(user.data.me.favouriteGenre)
-      } 
-    }, [ user, genre ])
-
-    useEffect(() => {
-        if(result.data) {
-          setBooks(result.data.allBooks)
-        }
-      },[result])*/
 
     if(!props.show) {
         return null
