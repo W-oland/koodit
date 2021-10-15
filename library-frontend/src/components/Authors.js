@@ -23,7 +23,6 @@ const Authors = (props) => {
     
   },[result])
 
-  console.log(authors)
   
   if (!props.show) {
     return null

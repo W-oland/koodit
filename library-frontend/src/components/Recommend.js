@@ -1,5 +1,5 @@
 import { React, useEffect, useState }from 'react'
-import { gql, useQuery } from '@apollo/client'
+import { gql, useLazyQuery, useQuery } from '@apollo/client'
 
 const ALL_BOOKS = gql`
 query {
@@ -15,6 +15,19 @@ query {
 }
 `
 
+const FILTERED_BOOKS = gql`
+query filteredBooks ($filter: String!) {
+  allBooks (genre: $filter) {
+    title
+    author {
+      name 
+      born
+    }
+    published
+  }
+}
+`
+
 const ME = gql`
 query {
   me {
@@ -26,7 +39,30 @@ query {
 `
 
 const Recommend = (props) => {
-    const result = useQuery(ALL_BOOKS) // <-- kyselyn tulos
+  const user = useQuery(ME)
+  const [ genre, setGenre ] = useState(null)
+
+  const [ getBooks, result ] = useLazyQuery(FILTERED_BOOKS)
+  const [ books, setBooks ] = useState([])
+
+  useEffect(() => {
+    if (user.data) {
+      setGenre(user.data.me.favouriteGenre)
+      console.log(genre)
+      getBooks({ variables: { filter: genre }})
+    }
+  },[ user, genre, getBooks ])
+
+  useEffect(() => {
+    if (result.data) {
+      setBooks(result.data.allBooks)
+      console.log(result.data.allBooks)
+    }
+  }, [ result ])
+
+
+
+    /*const result = useQuery(ALL_BOOKS) // <-- kyselyn tulos
     const user = useQuery(ME)
     const [books, setBooks] = useState([])
     const [genre, setGenre] = useState(null)
@@ -35,21 +71,19 @@ const Recommend = (props) => {
       if (user.data && user.data.me) {
         setGenre(user.data.me.favouriteGenre)
       } 
-    },[user, genre])
+    }, [ user, genre ])
 
     useEffect(() => {
         if(result.data) {
           setBooks(result.data.allBooks)
         }
-      },[result])
+      },[result])*/
 
     if(!props.show) {
         return null
     }
 
     if (genre) {
-      const filteredBooks = books.filter(book => book.genres.includes(genre))
-      console.log(filteredBooks)
       console.log(books)
       return (
         <div>
@@ -66,7 +100,7 @@ const Recommend = (props) => {
               published
             </th>
           </tr>
-        {filteredBooks.map(book =>
+        {books.map(book =>
         <tr key={book.title}>
           <td>{book.title}</td>
           <td>{book.author.name}</td>
@@ -76,7 +110,6 @@ const Recommend = (props) => {
         </table>
         </div>
       )
-
     }
   
     return ('No favourite genre!')
