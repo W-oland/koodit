@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
 
-// lisätty alle muutos riville 13 poistettu author
 const CREATE_BOOK = gql`
 mutation createBook ($title: String!, $author: String!, $published: Int!, $genres: [String]){
   addBook(
@@ -14,7 +13,6 @@ mutation createBook ($title: String!, $author: String!, $published: Int!, $genre
   }
 }`
 
-// lisätty alle muutos riville 22-24
 const ALL_BOOKS = gql`
 query {
   allBooks { 
@@ -27,6 +25,16 @@ query {
 }
 `
 
+const ALL_AUTHORS = gql`
+query {
+    allAuthors {
+      name
+      born
+      bookCount
+    }
+  }
+`
+
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -35,9 +43,23 @@ const NewBook = (props) => {
   const [genres, setGenres] = useState([])
 
   const [ createBook ] = useMutation(CREATE_BOOK, {
-    refetchQueries: [ { query: ALL_BOOKS} ]
-  }
-    )
+    refetchQueries: [ { query: ALL_BOOKS}, {query: ALL_AUTHORS } ]
+    
+    /*update: (store, response) => {
+      const dataInStore = store.readQuery({ query: ALL_BOOKS })
+      console.log(dataInStore.allBooks)
+      
+      store.writeQuery({
+        query: ALL_BOOKS,
+        data: {
+          ...dataInStore,
+          allBooks: [ ...dataInStore.allBooks, response.data.addBook]
+        }
+      })
+      console.log(response.data)
+    }*/
+
+  })
 
   if (!props.show) {
     return null
