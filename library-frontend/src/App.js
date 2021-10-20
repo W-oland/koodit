@@ -7,12 +7,46 @@ import LoginForm from './components/LoginForm'
 import Recommend from './components/Recommend'
 import { gql, useSubscription,useApolloClient } from '@apollo/client'
 
+
+/*const BOOK_DETAILS = gql`
+  fragment BookDetails on Book {
+    title
+    published
+    author {
+      name
+    }
+    id
+    genres
+  }
+`*/
+
 export const BOOK_ADDED = gql`
   subscription {
     bookAdded {
       title
+      published
+      author {
+        name
+        born
+      }
+      id
+      genres
     }
   }
+`
+
+const ALL_BOOKS = gql`
+query {
+  allBooks { 
+    title 
+    author {
+      name
+      born
+    }
+    published
+    genres
+  }
+}
 `
 
 const App = () => {
@@ -21,9 +55,28 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const client = useApolloClient()
 
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) =>
+      set.map(book => book.id).includes(object.id)
+    
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    console.log(dataInStore)
+
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks: dataInStore.allBooks.concat(addedBook) },
+      })
+    }
+  }
+
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       console.log(subscriptionData)
+      window.alert('Book added!', subscriptionData.data.bookAdded.title)
+      const addedBook = subscriptionData.data.bookAdded
+      console.log(addedBook)
+      updateCacheWith(addedBook)
     }
   })
 
@@ -87,7 +140,7 @@ const App = () => {
       />
 
       <NewBook
-        show={page === 'add'}
+        show={page === 'add' } updateCacheWith={ updateCacheWith }
       />
 
       <Recommend 

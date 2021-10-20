@@ -144,6 +144,23 @@ const resolvers = {
     bookCount: (root) => root.books.length //books.filter(book => book.author === root.name).length
   },
 
+  Book: { // <-- Lisätty tehtävän 8.25 takia
+    author: async (root) => {
+      const authorID = root.author
+      console.log(authorID)
+
+      const author = await Author.findOne({ _id: authorID })
+
+      return {
+        name: author.name,
+        born: author.born,
+        bookCount: author.books.length,
+        id: root.author._id
+      }
+    }
+
+  },
+
   Mutation: {
 
     createUser: (root, args) => {

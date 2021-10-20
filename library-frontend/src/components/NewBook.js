@@ -13,7 +13,7 @@ mutation createBook ($title: String!, $author: String!, $published: Int!, $genre
   }
 }`
 
-const ALL_BOOKS = gql`
+/*const ALL_BOOKS = gql`
 query {
   allBooks { 
     title 
@@ -23,7 +23,7 @@ query {
     published
   }
 }
-`
+`*/
 
 const ALL_AUTHORS = gql`
 query {
@@ -43,7 +43,10 @@ const NewBook = (props) => {
   const [genres, setGenres] = useState([])
 
   const [ createBook ] = useMutation(CREATE_BOOK, {
-    refetchQueries: [ { query: ALL_BOOKS}, {query: ALL_AUTHORS } ]
+    refetchQueries: [ /*{ query: ALL_BOOKS},*/ {query: ALL_AUTHORS } ],
+    update: (store, response) => {
+      props.updateCacheWith(response.data.addBook)
+    }
     
     /*update: (store, response) => {
       const dataInStore = store.readQuery({ query: ALL_BOOKS })
