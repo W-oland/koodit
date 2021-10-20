@@ -132,7 +132,7 @@ const resolvers = {
           return await Book.find({author: args.author, genre: args.genre}) //books.filter(books => books.author === args.author && books.genres.filter(genre => genre === args.genre))
         }
       },*/
-      allAuthors: async () => await Author.find({}),
+      allAuthors: async () => await Author.find({}).populate('books'),
       me: (root, args, context) => {
         console.log(context)
         console.log(context.currentUser)
