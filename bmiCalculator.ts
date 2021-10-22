@@ -17,22 +17,22 @@ const parseArguments = (args: Array<string>): MultiplyValues => {
     }
 }
 
-const multiplicator = (KGmass: number, CMheight: number) => {
+export const multiplicator = (KGmass: number, CMheight: number) => {
     const BMI = KGmass / ((CMheight/100) **2)
     if (BMI < 18.5) {
-        return console.log('Underweight')
+        return ('Underweight')
     } else if (BMI >= 18.5 && BMI <= 24.9) {
-        return console.log('Normal')
+        return ('Normal')
     } else if (BMI >= 25 && BMI <= 29.9) {
-        return console.log('Overweight')
+        return ('Overweight')
     } else {
-        return console.log('Obese')
+        return ('Obese')
     }
 }
 
 try {
     const { value1, value2 } = parseArguments(process.argv);
-    multiplicator(value1, value2); 
+    console.log(multiplicator(value1, value2)); 
 } catch (e) {
     console.log('Error, something bad happened, message: ', e.message)
 }
