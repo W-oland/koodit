@@ -13,13 +13,13 @@ app.get('/bmi', (req, res) => {
     const bmi = multiplicator(weight, height);
 
     if (!height || !weight || isNaN(height) || isNaN(weight)) {
-        res.send({ error: "malformatted parameters" })
+        res.send({ error: "malformatted parameters" });
     } else {
         const render = {
             "weight": weight,
             "height": height,
             "bmi": bmi
-        }
+        };
         res.send(render);
     }
     
@@ -28,5 +28,5 @@ app.get('/bmi', (req, res) => {
 const PORT = 3003;
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+    console.log(`Server running on port ${PORT}`);
 });

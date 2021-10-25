@@ -11,28 +11,32 @@ const parseArguments = (args: Array<string>): MultiplyValues => {
         return {
             value1: Number(args[2]),
             value2: Number(args[3])
-        }
+        };
     } else {
         throw new Error('Provided values were not numbers!');
     }
-}
+};
 
 export const multiplicator = (KGmass: number, CMheight: number) => {
-    const BMI = KGmass / ((CMheight/100) **2)
+    const BMI = KGmass / ((CMheight/100) **2);
     if (BMI < 18.5) {
-        return ('Underweight')
+        return ('Underweight');
     } else if (BMI >= 18.5 && BMI <= 24.9) {
-        return ('Normal')
+        return ('Normal');
     } else if (BMI >= 25 && BMI <= 29.9) {
-        return ('Overweight')
+        return ('Overweight');
     } else {
-        return ('Obese')
+        return ('Obese');
     }
-}
+};
 
 try {
     const { value1, value2 } = parseArguments(process.argv);
     console.log(multiplicator(value1, value2)); 
 } catch (e) {
-    console.log('Error, something bad happened, message: ', e.message)
+    if (e instanceof Error) {
+        console.log('Error, something bad happened, message: ', e.message);
+    } else if (e === undefined || null || e instanceof String ) {
+        console.log('Something else happened');
+    }
 }
