@@ -1,1 +1,4 @@
-/node_modules
+node_modules/
+first-steps/node_modules/
+patientor-backend/node_modules/
+patientor-frontend/node_modules/

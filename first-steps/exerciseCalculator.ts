@@ -13,7 +13,7 @@ interface Output {
     average: number;
 }
 
-const parser = (args: Array<string>): Input => {
+export const parser = (args: Array<string>): Input => {
     if (args.length < 4) throw new Error('Too few arguments');
     const hours = args.slice(3).map(hours => Number(hours)); // <-- type casting string array into number array
 
@@ -27,7 +27,7 @@ const parser = (args: Array<string>): Input => {
     }
 };
 
-const counter = (first: number, second: Array<number>): Output => {
+export const counter = (first: number, second: Array<number>): Output => {
     const periodLength = second.length;
     const trainingDays = second.filter(value => value > 0).length;
     const average = second.reduce( (a,b) => (a+b) / second.length ); // <-- used in the next line

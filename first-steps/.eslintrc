@@ -23,6 +23,6 @@
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-      "project": "part9/tsconfig.json" // <-- muutettu kansiorakennetta
+      "project": "part9/first-steps/tsconfig.json" // <-- muutettu kansiorakennetta
     }
   }
