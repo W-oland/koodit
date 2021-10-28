@@ -20,7 +20,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req,res) => {
     try {
-        const newPatientEntry = toNewPatientEntry(req.body);
+        const newPatientEntry = toNewPatientEntry(req.body); // <-- any?
         const addedEntry = patientsService.addEntry(newPatientEntry);
         res.json(addedEntry);
     } catch (error: unknown) {

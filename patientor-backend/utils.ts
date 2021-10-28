@@ -1,4 +1,4 @@
-import { newPatientEntry } from "./types";
+import { newPatientEntry, Gender } from "./types";
 
 type Fields = { name: unknown, dateOfBirth: unknown, ssn: unknown, gender: unknown, occupation: unknown };
 
@@ -34,9 +34,9 @@ const parseSSN = (ssn: unknown): string => {
     return ssn;
 };
 
-const parseGender = (gender: unknown): string => {
-    if(!gender || !isString(gender)) {
-        throw new Error('Incorrect or missing gender');
+const parseGender = (gender: unknown): Gender => {
+    if(!gender || !isGender(gender)) {
+        throw new Error('Incorrect or missing gender' + gender);
     }
     return gender;
 };
@@ -54,6 +54,11 @@ const isString = (text: unknown): text is string => {
 
 const isDate = (date: string): boolean => {
     return Boolean(Date.parse(date));
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isGender = (param: any): param is Gender => {
+    return Object.values(Gender).includes(param);
 };
 
 export default toNewPatientEntry;
