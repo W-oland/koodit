@@ -11,15 +11,29 @@ const Part = ({coursePart}: {coursePart: CoursePart}) => {
     switch (coursePart.type) {
       case "normal":
         return (
-          <p>{coursePart.name} {coursePart.exerciseCount}</p>
+          <>
+            <b>{coursePart.name} {coursePart.exerciseCount}</b>
+            <p>
+              <em>{coursePart.description}</em>
+            </p>
+          </>
         );
       case "groupProject":
         return (
-          <p>{coursePart.name} {coursePart.exerciseCount}</p>
+          <>
+            <b>{coursePart.name} {coursePart.exerciseCount}</b>
+            <p>project exercises {coursePart.exerciseCount}</p>
+          </>
         );
       case "submission":
         return (
-          <p>{coursePart.name} {coursePart.exerciseCount}</p>
+          <>
+            <b>{coursePart.name} {coursePart.exerciseCount}</b>
+            <p>
+              <em>{coursePart.description}</em>
+              </p>
+            <p>submit to {coursePart.exerciseSubmissionLink}</p>
+          </>
         );
     default:
       return assertNever(coursePart);
