@@ -39,6 +39,9 @@ const Part = ({coursePart}: {coursePart: CoursePart}) => {
         return (
           <>
           <b>{coursePart.name} {coursePart.exerciseCount}</b>
+          <p>
+            <em>{coursePart.description}</em>
+            </p>
           <p>required skills: { coursePart.requirements.map((requirement, index) => (index ? ", ": "") + requirement) }</p>
           </>
         )
