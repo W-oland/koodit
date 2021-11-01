@@ -9,9 +9,15 @@ export interface NewInterface extends CoursePartBase {
     description: string;
 }
 
+export interface AnotherInterface extends NewInterface {
+    type: "special"
+    requirements: Array<string>
+}
+
 export interface CourseNormalPart extends NewInterface {
     type: "normal";
 }
+
 export interface CourseProjectPart extends CoursePartBase {
     type: "groupProject";
     groupProjectCount: number;
@@ -22,4 +28,4 @@ export interface CourseSubmissionPart extends NewInterface {
     exerciseSubmissionLink: string;
 }
 
-export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart;
+export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart | AnotherInterface;

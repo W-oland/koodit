@@ -35,6 +35,13 @@ const Part = ({coursePart}: {coursePart: CoursePart}) => {
             <p>submit to {coursePart.exerciseSubmissionLink}</p>
           </>
         );
+      case "special":
+        return (
+          <>
+          <b>{coursePart.name} {coursePart.exerciseCount}</b>
+          <p>required skills: { coursePart.requirements.map((requirement, index) => (index ? ", ": "") + requirement) }</p>
+          </>
+        )
     default:
       return assertNever(coursePart);
     }
