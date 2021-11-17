@@ -11,10 +11,24 @@ export type Action =
       payload: Patient;
     }
   | {
-    type: "SET_PATIENT";
+    type: "SET_PATIENT"; // <-- haetaan yksittäisen potilaan tiedot
     payload: Patient;
 
   };
+
+export const setPatient_AC = (patientFromApi: Patient): Action => { // <-- AC = Action Creator
+  return {
+      type: "SET_PATIENT",
+      payload: patientFromApi
+  };
+};
+
+export const setPatientList_AC = (patientListFromApi: Patient[]): Action => {
+  return {
+    type:"SET_PATIENT_LIST",
+    payload: patientListFromApi
+  };
+};
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {

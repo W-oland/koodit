@@ -5,11 +5,13 @@ import { Patient } from '../types';
 import { Icon } from 'semantic-ui-react';
 import { apiBaseUrl } from '../constants';
 import axios from 'axios';
+import { setPatient_AC } from '../state';
 
 export const PatientDetailPage = () => {
     const [{patient}, ] = useStateValue();
     const {id} = useParams<{id: string}>();
     const [, dispatch] = useStateValue();
+
     
     React.useEffect( () => {
         const fetchPatient = async () => {
@@ -17,7 +19,8 @@ export const PatientDetailPage = () => {
                 const { data: patientFromApi } = await axios.get<Patient>(
                     `${apiBaseUrl}/patients/${id}`
                 );
-                dispatch({ type:"SET_PATIENT", payload: patientFromApi });
+                //dispatch({ type:"SET_PATIENT", payload: patientFromApi });
+                dispatch(setPatient_AC(patientFromApi));
                 console.log(dispatch);
             } catch (e) {
                 console.error(e);
