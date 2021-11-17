@@ -8,7 +8,7 @@ const toNewPatientEntry = ({ name, dateOfBirth, ssn, gender, occupation }:  Fiel
         dateOfBirth: parseDateOfBirth(dateOfBirth),
         ssn: parseSSN(ssn),
         gender: parseGender(gender),
-        occupation: parseOccupation(occupation),
+        occupation: parseOccupation(occupation)
     };
     return newEntry;
 };
@@ -19,6 +19,7 @@ const parseName = (name: unknown): string => {
     }
     return name;
 };
+
 
 const parseDateOfBirth = (dateOfBirth: unknown): string => {
     if (!dateOfBirth || !isString(dateOfBirth) || !isDate(dateOfBirth))  {
@@ -58,6 +59,7 @@ const isDate = (date: string): boolean => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isGender = (param: any): param is Gender => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return Object.values(Gender).includes(param);
 };
 
