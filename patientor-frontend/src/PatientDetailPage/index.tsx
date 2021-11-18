@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import { useStateValue } from '../state';
-import { Patient } from '../types';
+import { Patient, entry } from '../types';
 import { Icon } from 'semantic-ui-react';
 import { apiBaseUrl } from '../constants';
 import axios from 'axios';
@@ -29,11 +29,33 @@ export const PatientDetailPage = () => {
         void fetchPatient();
     }, [dispatch]);
 
+    const gender = () => { // <-- outoa ettei mikään muu toimi. Pakko olla parempi logiikka. 
+        if (patient?.gender === 'male') {
+            return <Icon name='mars'/>;
+        } else if (patient?.gender === 'female') {
+            return <Icon name='venus' />;
+        } else if (patient?.gender === 'other') {
+            return <Icon name='genderless' />;
+        } else {
+            return null;
+        }
+    };
+
     return (
         <div>
-            <h2> {patient?.name} <Icon name='mars'/> </h2>
+            <h2> {patient?.name} {gender()} </h2>
             <p>ssn: {patient?.ssn}</p>
             <p>occupation: {patient?.occupation}</p>
+            <h2>entries</h2>
+            <div>{patient?.entries.map((entry: entry) => (
+                <p key={entry.id}> {entry.date} {entry.description}</p>
+                )
+            )}</div>
+            <div>
+                {patient?.entries.map((entry: entry) => entry.diagnosisCodes?.map(code => (
+                    <li key={code}>{code}</li>
+                )))}
+            </div>
         </div>
     );
 
