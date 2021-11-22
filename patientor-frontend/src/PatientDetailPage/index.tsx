@@ -1,18 +1,29 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import { useStateValue } from '../state';
-import { Patient, entry } from '../types';
+import { Patient, entry, Diagnosis } from '../types';
 import { Icon } from 'semantic-ui-react';
 import { apiBaseUrl } from '../constants';
 import axios from 'axios';
-import { setPatient_AC } from '../state';
+import { setPatient_AC, setDiagnosisList_AC } from '../state';
 
 export const PatientDetailPage = () => {
-    const [{patient}, ] = useStateValue();
+    const [{patient, diagnosis}, ] = useStateValue();
     const {id} = useParams<{id: string}>();
     const [, dispatch] = useStateValue();
+    //const diagnosisCodes = patient?.entries.map((entry) => entry.diagnosisCodes?.map((code) => code));
+    //const diagnoses = Object.values(diagnosis).map((diagnosis: Diagnosis) => diagnosis);
+    //console.log(diagnoses);
+    //console.log(diagnosisCodes);
+    //console.log(patient,diagnosis);
+    //const sample = diagnosis['M24.2'];
+    //console.log(sample?.latin);
+    // --- aika paljon upposi työtä tähänkin. Lopulta ratkaisu löytyi seuraavasti:
+    // --- patient?.entries.map((entry: entry) => entry.diagnosisCodes?.map((code: string) => (
+    // --- <li key={code}>{code} {diagnosis[code]?.name}</li>
+    // ---  )))}
 
-    
+
     React.useEffect( () => {
         const fetchPatient = async () => {
             try {
@@ -21,12 +32,25 @@ export const PatientDetailPage = () => {
                 );
                 //dispatch({ type:"SET_PATIENT", payload: patientFromApi });
                 dispatch(setPatient_AC(patientFromApi));
-                console.log(dispatch);
             } catch (e) {
                 console.error(e);
             }
         };
         void fetchPatient();
+    }, [dispatch]);
+
+    React.useEffect( () => {
+        const fetchDiagnoses = async () => {
+            try {
+                const { data: diagnosisFromApi } = await axios.get<Diagnosis[]>(
+                    `${apiBaseUrl}/diagnoses`
+                );
+                dispatch(setDiagnosisList_AC(diagnosisFromApi));
+            } catch (e) {
+                console.error(e);
+            }
+        };
+        void fetchDiagnoses();
     }, [dispatch]);
 
     const gender = () => { // <-- outoa ettei mikään muu toimi. Pakko olla parempi logiikka. 
@@ -52,8 +76,8 @@ export const PatientDetailPage = () => {
                 )
             )}</div>
             <div>
-                {patient?.entries.map((entry: entry) => entry.diagnosisCodes?.map(code => (
-                    <li key={code}>{code}</li>
+                {patient?.entries.map((entry: entry) => entry.diagnosisCodes?.map((code: string) => (
+                    <li key={code}>{code} {diagnosis[code]?.name}</li>
                 )))}
             </div>
         </div>

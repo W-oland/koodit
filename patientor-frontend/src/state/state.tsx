@@ -1,16 +1,18 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { Patient } from "../types";
+import { Patient, Diagnosis } from "../types";
 
 import { Action } from "./reducer";
 
 export type State = {
   patients: { [id: string]: Patient }; // <-- if 'Patient | undefined', an additional type security is added.
-  patient: Patient | undefined // <-- ehkä undefined pitää korvata null
+  patient: Patient | null; // <-- ehkä undefined pitää korvata null
+  diagnosis: { [code: string]: Diagnosis } //Diagnosis | undefined;
 };
 
 const initialState: State = {
   patients: {},
-  patient: undefined // <-- ehkä pitäisi olla null
+  patient: null, // <-- ehkä pitäisi olla null
+  diagnosis: {} // undefined
 };
 
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([ // <-- creates a context object
