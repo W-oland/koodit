@@ -65,6 +65,20 @@ export const PatientDetailPage = () => {
         }
     };
 
+    const HeartColour = (entry: entry) => {
+        if (entry.type === "HealthCheck" && entry.healthCheckRating === 0) {
+            return <Icon name='heart' color='green' />;
+        } else if (entry.type === "HealthCheck" && entry.healthCheckRating === 1) {
+            return <Icon name='heart' color='yellow' />;
+        } else if (entry.type === "HealthCheck" && entry.healthCheckRating === 2) {
+            return <Icon name='heart' color='red' /> ;
+        } else if (entry.type === "HealthCheck" && entry.healthCheckRating === 3) {
+            return <Icon name='heart' color='black' /> ;
+        } else {
+            return null;
+        }
+    };
+
     const EntryDetails: React.FC<{entry: entry}> = ({ entry }) => {
         switch (entry.type) {
             case "Hospital":
@@ -72,7 +86,7 @@ export const PatientDetailPage = () => {
                     <Segment>
                         <h3>{entry.date} <Icon name='hospital' /> </h3>
                         <p>{entry.description} </p>
-                        <Icon name='heart' color='green' />
+                        {HeartColour(entry)}
                         {entry.diagnosisCodes?.map((code: string) => (
                             <ul key={code}>{code} {diagnosis[code]?.name}</ul>
                         ))}
@@ -83,7 +97,7 @@ export const PatientDetailPage = () => {
                     <Segment>
                         <h3>{entry.date} <Icon name='stethoscope' /> </h3>
                         <p>{entry.description} </p>
-                        <Icon name='heart' color='yellow' />
+                        {HeartColour(entry)}
                         {entry.diagnosisCodes?.map((code: string) => (
                             <ul key={code}>{code} {diagnosis[code]?.name}</ul>
                         ))}
@@ -94,7 +108,7 @@ export const PatientDetailPage = () => {
                     <Segment>
                         <h3>{entry.date} <Icon name='user md' /> </h3>
                         <p>{entry.description} </p>
-                        <Icon name='heart' color='purple' />
+                        {HeartColour(entry)}
                         {entry.diagnosisCodes?.map((code: string) => (
                             <ul key={code}>{code} {diagnosis[code]?.name}</ul>
                         ))}
@@ -104,8 +118,6 @@ export const PatientDetailPage = () => {
                 return assertNever(entry);
         }
     };
-
-
 
     const assertNever = (value: never): never => {
         throw new Error(
