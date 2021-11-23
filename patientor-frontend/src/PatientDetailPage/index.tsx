@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { useStateValue } from '../state';
 import { Patient, entry, Diagnosis } from '../types';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Segment } from 'semantic-ui-react';
 import { apiBaseUrl } from '../constants';
 import axios from 'axios';
 import { setPatient_AC, setDiagnosisList_AC } from '../state';
@@ -65,13 +65,62 @@ export const PatientDetailPage = () => {
         }
     };
 
+    const EntryDetails: React.FC<{entry: entry}> = ({ entry }) => {
+        switch (entry.type) {
+            case "Hospital":
+                return (
+                    <Segment>
+                        <h3>{entry.date} <Icon name='hospital' /> </h3>
+                        <p>{entry.description} </p>
+                        <Icon name='heart' color='green' />
+                        {entry.diagnosisCodes?.map((code: string) => (
+                            <ul key={code}>{code} {diagnosis[code]?.name}</ul>
+                        ))}
+                    </Segment>
+                );
+            case "HealthCheck":
+                return (
+                    <Segment>
+                        <h3>{entry.date} <Icon name='stethoscope' /> </h3>
+                        <p>{entry.description} </p>
+                        <Icon name='heart' color='yellow' />
+                        {entry.diagnosisCodes?.map((code: string) => (
+                            <ul key={code}>{code} {diagnosis[code]?.name}</ul>
+                        ))}
+                    </Segment>
+                );
+            case "OccupationalHealthcare":
+                return (
+                    <Segment>
+                        <h3>{entry.date} <Icon name='user md' /> </h3>
+                        <p>{entry.description} </p>
+                        <Icon name='heart' color='purple' />
+                        {entry.diagnosisCodes?.map((code: string) => (
+                            <ul key={code}>{code} {diagnosis[code]?.name}</ul>
+                        ))}
+                    </Segment>
+                );
+            default:
+                return assertNever(entry);
+        }
+    };
+
+
+
+    const assertNever = (value: never): never => {
+        throw new Error(
+            `Ùnhandleed discriminated union member ${JSON.stringify(value)}`
+        );
+    };
+
     return (
         <div>
             <h2> {patient?.name} {gender()} </h2>
             <p>ssn: {patient?.ssn}</p>
             <p>occupation: {patient?.occupation}</p>
             <h2>entries</h2>
-            <div>{patient?.entries.map((entry: entry) => (
+
+            {/*<div>{patient?.entries.map((entry: entry) => (
                 <p key={entry.id}> {entry.date} {entry.description}</p>
                 )
             )}</div>
@@ -79,6 +128,14 @@ export const PatientDetailPage = () => {
                 {patient?.entries.map((entry: entry) => entry.diagnosisCodes?.map((code: string) => (
                     <li key={code}>{code} {diagnosis[code]?.name}</li>
                 )))}
+                </div>*/}
+
+                <div>
+                {patient?.entries.map((entry: entry) => (
+                    <ul key={entry.id}>
+                        <EntryDetails entry={entry} />
+                    </ul>
+                ))}
             </div>
         </div>
     );
