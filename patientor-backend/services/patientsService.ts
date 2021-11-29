@@ -1,16 +1,18 @@
 import patients from '../data/patients';
 
-import { patientsEntry, nonSensitivePatientsEntry, newPatientEntry } from '../types';
+import { patientsEntry, nonSensitivePatientsEntry, newPatientEntry, entryWithoutID, entry } from '../types';
 
 import {v1 as uuid} from 'uuid';
 const id: string = uuid();
 
+let updatedPatients = [...patients]; // <-- hassu ratkaisu. addEntryssä joudutaan päivittämään listan instanssi, joten siksi tämä
+
 const getEntries = (): Array <patientsEntry> => {
-    return patients;
+    return updatedPatients;
 };
 
 const getNonSensitiveEntries = (): Array<nonSensitivePatientsEntry> => {
-    return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+    return updatedPatients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
         id,
         name,
         dateOfBirth,
@@ -20,25 +22,34 @@ const getNonSensitiveEntries = (): Array<nonSensitivePatientsEntry> => {
 };
 
 const findById = (id: string): patientsEntry | undefined => { // <-- huom id string eikä number toisin kuin materiaaleissa!
-    const entry = patients.find(p => p.id === id);
+    const entry = updatedPatients.find(p => p.id === id);
     /*if (!entry?.entries) {
         entry = { ...entry, entries: [] } as patientsEntry;
     }*/
     return entry;
 };
 
-const addEntry = (entry: newPatientEntry): patientsEntry => {
+const addPatient = (entry: newPatientEntry): patientsEntry => {
     const newPatientEntry = {
         id: id,
         ...entry
     };
-    patients.push(newPatientEntry);
+    updatedPatients.push(newPatientEntry);
     return newPatientEntry;
+};
+
+const addEntry = (patient: patientsEntry, entry: entryWithoutID): patientsEntry => {
+    const newEntry: entry = { ...entry, id: id };
+    const updatedPatient = { ...patient, entries: patient.entries.concat(newEntry)};
+    //const newPatients = patients.map(p => p.id === updatedPatient.id ? updatedPatient : p);
+    updatedPatients = updatedPatients.map(p => p.id === updatedPatient.id ? updatedPatient : p);
+    return updatedPatient;
 };
 
 export default {
     getEntries,
-    addEntry,
+    addPatient,
     getNonSensitiveEntries,
-    findById
+    findById,
+    addEntry
 };

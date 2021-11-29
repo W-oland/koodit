@@ -1,0 +1,14 @@
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+    "date":"1992-02-02",
+    "specialist":"David Solomon",
+    "type":"Hospital",
+    "description":"Broken nose",
+    "diagnosisCodes": ["M24.2"],
+    "discharge": {
+        "date": "1991-01-01",
+        "criteria": "bonestructure"
+    }
+}

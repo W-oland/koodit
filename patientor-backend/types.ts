@@ -15,6 +15,8 @@ export interface patientsEntry {
     entries: entry[];
 }
 
+export type newPatientEntry = Omit<patientsEntry, 'id'>;
+
 export interface baseEntry {
     id: string;
     description: string;
@@ -22,6 +24,11 @@ export interface baseEntry {
     specialist: string;
     diagnosisCodes?: Array<diagnosesEntry['code']>;
 }
+
+export type newBaseEntry = Omit<baseEntry, 'id'>; // <-- käytetään parserissa. ei haluta käyttäjältä id:tä. Sama logiikka kuin newPatientsEntry.
+export type newHealthCheckEntry = Omit<healthCheckEntry, 'id'>;
+export type newHospitalEntry = Omit<hospitalEntry, 'id'>;
+export type newOccupationalHealthcareEntry = Omit<occupationalHealthcareEntry, 'id'>;
 
 export enum healthCheckRating {
     "Healthy" = 0,
@@ -37,19 +44,23 @@ export interface healthCheckEntry extends baseEntry {
 
 export interface hospitalEntry extends baseEntry {
     type: 'Hospital';
-    discharge: {
-        date: string;
-        criteria: string;
-    }
+    discharge: Discharge;
+}
+
+export interface Discharge {
+    date: string;
+    criteria: string;
 }
 
 export interface occupationalHealthcareEntry extends baseEntry {
     type: 'OccupationalHealthcare';
     employerName: string;
-    sickLeave?: {
-        startDate: string;
-        endDate: string;
-    } // <-- yhdessä data-instanssissa sickLeave ei löydy, joten siksi ehdollinen "?"
+    sickLeave?: SickLeave;
+}
+
+export interface SickLeave {
+    startDate: string;
+    endDate: string;
 }
 
 export type entry =
@@ -62,8 +73,6 @@ type unionOmit<T, K extends string | number | symbol > = T extends unknown ? Omi
 export type entryWithoutID = unionOmit<entry, 'id'>;
 
 export type nonSensitivePatientsEntry = Omit<patientsEntry, 'ssn' | 'entries' >;
-
-export type newPatientEntry = Omit<patientsEntry, 'id'>;
 
 export enum Gender {
     Male = 'male',
