@@ -2,12 +2,12 @@ POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/ent
 Content-Type: application/json
 
 {
-    "date":"1992-02-02",
-    "specialist":"David Solomonanan",
+    "date":"1993-02-02",
+    "specialist":"David Gathering",
     "type":"OccupationalHealthcare",
-    "description":"Broken legs",
-    "diagnosisCodes": ["M48.2"],
-    "employerName": "Matt damon",
+    "description":"Broken jaw",
+    "diagnosisCodes": ["M44.2"],
+    "employerName": "Jared Diamons",
     "sickLeave": {
         "startDate": "1992-01-01",
         "endDate": "1992-01-02"

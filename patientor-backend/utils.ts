@@ -96,32 +96,27 @@ export const toNewEntry= (object: any): entryWithoutID => {
         diagnosisCodes: parseDiagnosisCodes(object.diagnosisCodes) || [],
     };
 
-    /*const newHealthCheckEntry: newHealthCheckEntry = {
-        ...newBaseEntry,
-        healthCheckRating: parseHealthCheckRatings(object.healthCheckRating)
-    };*/
-
     switch(validEntry.type) {
         case "HealthCheck":
             return {
                 ...newBaseEntry,
                 type: validEntry.type,
-                healthCheckRating: parseHealthCheckRatings(validEntry.healthCheckRating) //validEntry.healthCheckRating
+                healthCheckRating: parseHealthCheckRatings(validEntry.healthCheckRating)
             };
 
         case "Hospital":
             return {
                 ...newBaseEntry,
                 type: validEntry.type,
-                discharge: parseDischarge(validEntry.discharge) //validEntry.discharge
+                discharge: parseDischarge(validEntry.discharge)
             };
 
         case "OccupationalHealthcare":
             return {
                 ...newBaseEntry,
                 type: validEntry.type,
-                employerName: parseName(validEntry.employerName), //validEntry.employerName,
-                sickLeave: parseSickLeave(validEntry.sickLeave) //validEntry.sickLeave
+                employerName: parseName(validEntry.employerName),
+                sickLeave: parseSickLeave(validEntry.sickLeave)
             };
 
         default:

@@ -1,9 +1,9 @@
+import {v4 as uuid} from 'uuid';
 import patients from '../data/patients';
 
 import { patientsEntry, nonSensitivePatientsEntry, newPatientEntry, entryWithoutID, entry } from '../types';
 
-import {v1 as uuid} from 'uuid';
-const id: string = uuid();
+//const id: string = uuid(); // ANTAA KAIKILLE SAMAN ID:N!!!!
 
 let updatedPatients = [...patients]; // <-- hassu ratkaisu. addEntryssä joudutaan päivittämään listan instanssi, joten siksi tämä
 
@@ -31,7 +31,7 @@ const findById = (id: string): patientsEntry | undefined => { // <-- huom id str
 
 const addPatient = (entry: newPatientEntry): patientsEntry => {
     const newPatientEntry = {
-        id: id,
+        id: uuid(),
         ...entry
     };
     updatedPatients.push(newPatientEntry);
@@ -39,7 +39,8 @@ const addPatient = (entry: newPatientEntry): patientsEntry => {
 };
 
 const addEntry = (patient: patientsEntry, entry: entryWithoutID): patientsEntry => {
-    const newEntry: entry = { ...entry, id: id };
+    const newEntry: entry = { ...entry, id: uuid() }; // <-- id:uuid() korjasi ongelman, jossa kaikilla SAMA ID!
+    console.log(newEntry.id);
     const updatedPatient = { ...patient, entries: patient.entries.concat(newEntry)};
     //const newPatients = patients.map(p => p.id === updatedPatient.id ? updatedPatient : p);
     updatedPatients = updatedPatients.map(p => p.id === updatedPatient.id ? updatedPatient : p);
