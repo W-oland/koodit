@@ -11,6 +11,12 @@ export enum Gender {
   Other = "other"
 }
 
+export enum EntryTypes {
+  HealthCheck = "HealthCheck",
+  OccupationalHealthcare = "OccupationalHealthcare",
+  Hospital = "Hospital"
+}
+
 export interface Patient {
   id: string;
   name: string;
@@ -62,6 +68,11 @@ export type entry =
 | hospitalEntry
 | occupationalHealthcareEntry
 | healthCheckEntry;
+
+export type NewEntry = 
+| Omit<hospitalEntry, "id">
+| Omit<occupationalHealthcareEntry, "id">
+| Omit <healthCheckEntry, "id">;
 
 type unionOmit<T, K extends string | number | symbol > = T extends unknown ? Omit<T,K> : never;
 
