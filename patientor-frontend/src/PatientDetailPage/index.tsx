@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import { useStateValue } from '../state';
-import { Patient, entry, Diagnosis } from '../types';
+import { Patient, entry, Diagnosis,EntryTypes } from '../types';
 import { Icon, Segment, Button } from 'semantic-ui-react';
 import { apiBaseUrl } from '../constants';
 import axios from 'axios';
@@ -107,7 +107,7 @@ export const PatientDetailPage = () => {
 
     const EntryDetails: React.FC<{entry: entry}> = ({ entry }) => {
         switch (entry.type) {
-            case "Hospital":
+            case EntryTypes.Hospital: //"Hospital":
                 return (
                     <Segment>
                         <h3>{entry.date} <Icon name='hospital' /> </h3>
@@ -118,7 +118,7 @@ export const PatientDetailPage = () => {
                         ))}
                     </Segment>
                 );
-            case "HealthCheck":
+            case EntryTypes.HealthCheck: //"HealthCheck":
                 return (
                     <Segment>
                         <h3>{entry.date} <Icon name='stethoscope' /> </h3>
@@ -129,7 +129,7 @@ export const PatientDetailPage = () => {
                         ))}
                     </Segment>
                 );
-            case "OccupationalHealthcare":
+            case EntryTypes.OccupationalHealthcare: //"OccupationalHealthcare":
                 return (
                     <Segment>
                         <h3>{entry.date} <Icon name='user md' /> </h3>

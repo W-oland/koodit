@@ -1,9 +1,10 @@
 import React from "react";
-import { NewEntry } from "../types";
+import { NewEntry, EntryTypes } from "../types";
 import { Formik, Form, Field } from 'formik';
 import { TextField, NumberField, DiagnosisSelection } from './FormField';
 import { useStateValue } from '../state';
 import { Grid, Button } from "semantic-ui-react";
+import VariableFields from './variableFields';
 
 interface Props {
     onSubmit: (values: NewEntry) => void;
@@ -15,7 +16,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
     return (
         <Formik
             initialValues={{
-                type: "HealthCheck",
+                type: EntryTypes.HealthCheck,
                 description: '',
                 diagnosisCodes: [],
                 date: '',
@@ -47,7 +48,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 return errors;
             }}
             >
-                {({ isValid, dirty, setFieldValue, setFieldTouched }) => {
+                {({ isValid, dirty, setFieldValue, setFieldTouched, values }) => {
                     return (
                         <Form className="form ui" >
                             <Field 
@@ -92,6 +93,8 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                             setFieldTouched={setFieldTouched}
                             diagnoses={Object.values(diagnosis)}
                             />
+
+                            <VariableFields entryType={values.type} />
 
                             <Grid>
                                 <Grid.Column floated="left" width={5}>
