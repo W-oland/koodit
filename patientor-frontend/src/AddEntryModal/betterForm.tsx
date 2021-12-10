@@ -1,7 +1,7 @@
 import React from "react";
 import { NewEntry, EntryTypes } from "../types";
 import { Formik, Form, Field } from 'formik';
-import { TextField, NumberField, DiagnosisSelection } from './FormField';
+import { TextField, NumberField, DiagnosisSelection, EntryOption, SelectField } from './FormField';
 import { useStateValue } from '../state';
 import { Grid, Button } from "semantic-ui-react";
 import VariableFields from './variableFields';
@@ -10,6 +10,12 @@ interface Props {
     onSubmit: (values: NewEntry) => void;
     onCancel: () => void;
 }
+
+const entryOptions: EntryOption[] = [
+    { value: EntryTypes.HealthCheck, label: "HealthCheck" },
+    { value: EntryTypes.Hospital, label: "Hospital" },
+    { value: EntryTypes.OccupationalHealthcare, label: "OccupationalHealthcare" }
+  ];
 
 export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
     const [{ diagnosis }] = useStateValue();
@@ -51,11 +57,10 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 {({ isValid, dirty, setFieldValue, setFieldTouched, values }) => {
                     return (
                         <Form className="form ui" >
-                            <Field 
+                            <SelectField 
                             label="Type"
-                            placeholder="Type"
                             name="type"
-                            component={TextField}
+                            options={entryOptions}
                             />
 
                             <Field 
